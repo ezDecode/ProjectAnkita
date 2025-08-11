@@ -1,16 +1,29 @@
 'use client';
 
-import { useState } from 'react';
-import AnimatedIntro from '@/components/AnimatedIntro';
+import { useState, useCallback } from 'react';
+import Loading from '@/components/Loading';
+import Hero from '@/components/Hero';
 import Navbar from '@/components/Navbar';
 
 export default function Home() {
-  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isIntroFinished, setIsIntroFinished] = useState(false);
+
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoading(false);
+    setTimeout(() => {
+      setIsIntroFinished(true);
+    }, 100);
+  }, []);
 
   return (
     <>
-      <Navbar isVisible={isAnimationComplete} />
-      <AnimatedIntro onAnimationComplete={() => setIsAnimationComplete(true)} />
+      {isLoading && <Loading onComplete={handleLoadingComplete} />}
+
+      {/* Pass the isVisible prop to the Hero component */}
+      <Hero isVisible={isIntroFinished} />
+
+      <Navbar isVisible={isIntroFinished} />
     </>
   );
 }

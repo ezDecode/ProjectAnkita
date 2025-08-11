@@ -1,31 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap');
 @import "tailwindcss";
 
-@theme {
-  --font-manrope: "Manrope", sans-serif;
-  --font-t1korium: "T1Korium", sans-serif;
-  --font-size-9xl: 9.25rem; /* 148px */
-}
-
-/* T1Korium Font Face Declarations */
-@font-face {
-  font-family: 'T1Korium';
-  src: url('/fonts/T1Korium-2Kg.woff2') format('woff2');
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'T1Korium';
-  src: url('/fonts/T1Korium-3Kg.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* Root variables for theme colors */
 :root {
   --background: #ffffff;
   --foreground: #171717;
   scrollbar-width: none;
+}
+
+/* Ensure fonts are loaded and applied */
+.font-ppneue {
+  font-family: var(--font-ppneue), ui-sans-serif, system-ui, sans-serif !important;
+}
+
+.font-editorial {
+  font-family: var(--font-editorial), ui-serif, serif !important;
+}
+
+.font-t1korium {
+  font-family: var(--font-t1korium), ui-serif, serif !important;
+}
+
+
+
+/* Debug font loading */
+body {
+  font-family: var(--font-ppneue), ui-sans-serif, system-ui, sans-serif;
 }

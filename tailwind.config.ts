@@ -6,8 +6,15 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  // In Tailwind v4, fonts are configured in CSS using @theme directive
-  // Keep minimal config here for compatibility
+  theme: {
+    extend: {
+      fontFamily: {
+        ppneue: ['var(--font-ppneue)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        editorial: ['var(--font-editorial)', 'ui-serif', 'serif'],
+        t1korium: ['var(--font-t1korium)', 'ui-serif', 'serif'],
+      },
+    },
+  },
   plugins: [],
 };
 export default config;
