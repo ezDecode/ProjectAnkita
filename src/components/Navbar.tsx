@@ -9,8 +9,6 @@ interface NavbarProps {
   isVisible: boolean;
 }
 
-gsap.registerPlugin(useGSAP);
-
 const Navbar = ({ isVisible }: NavbarProps) => {
   const headerRef = useRef(null);
 
