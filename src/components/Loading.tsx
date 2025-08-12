@@ -12,44 +12,45 @@ gsap.registerPlugin(useGSAP);
 
 const Loading = ({ onComplete }: LoadingProps) => {
   const containerRef = useRef(null);
-  const svgContainerRef = useRef(null);
 
   useGSAP(
     () => {
+      // A GSAP timeline allows sequencing animations.
       const tl = gsap.timeline({
+        // When the timeline is complete, call the onComplete function from props.
         onComplete: onComplete,
-        delay: 0.5, // A brief delay before the animation starts
+        delay: 0.5, // A brief delay before the animation starts.
       });
 
-
+      // Animation Step 1: Fade out the SVG text elements.
       tl.to(['#ankita-text', '#sahoo-text'], {
         opacity: 0,
         duration: 1,
         ease: 'power2.in',
-      }, '+=0.5'); // Pause for half a second after the initial delay
+      }, '+=0.5'); // Start after a 0.5s pause.
 
-      tl.to('#dash-part', {
+      // Animation Step 2: Slide the entire container up to reveal the content underneath.
+      // We target `containerRef.current` to move the whole screen.
+      tl.to(containerRef.current, {
+        y: '-100%', // Move it up by its full height.
         duration: 1.5,
-        scale: 30000,
-        transformOrigin: 'center center',
         ease: 'expo.inOut',
-      }, '-=0.5');
+      }, '-=0.5'); // Overlap with the text fade-out for a smoother transition.
 
     },
     { scope: containerRef }
   );
 
   return (
+    // This container covers the entire screen and will be animated upwards.
     <div
       ref={containerRef}
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#e4e4dd] overflow-hidden"
     >
-
-      <div
-        ref={svgContainerRef}
-        className="absolute z-10 w-[80vw] max-w-[728px]"
-      >
+      <div className="absolute z-10 w-[80vw] max-w-[728px]">
+        {/* The SVG containing the name graphics. */}
         <svg width="100%" viewBox="0 0 728 98" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Path data for the SVG... */}
           <g id="ankita-text">
             <path d="M15.6 96H0.52L35.1 3.05H50.57L85.41 96H69.81L62.14 73.64H23.27L15.6 96ZM42.64 16.31L27.56 61.55H58.11L42.9 16.31H42.64ZM125.21 27.75C137.43 27.75 147.31 34.77 147.31 49.98V96H134.57V53.49C134.57 44.65 130.67 38.67 121.05 38.67C110.13 38.67 103.11 45.3 103.11 55.31V96H90.3703V29.7H103.11V38.02H103.37C106.88 32.95 113.77 27.75 125.21 27.75ZM217.633 96H202.553L180.843 62.07L171.223 71.3V96H158.483V3.05H171.223V57.78L200.213 29.7H214.903L189.423 54.01L217.633 96ZM233.898 17.87H219.468V4.09H233.898V17.87ZM232.988 96H220.248V29.7H232.988V96ZM269.129 86.25C271.339 86.25 272.379 86.12 274.589 85.73V96C271.339 96.65 269.259 96.78 266.529 96.78C255.609 96.78 248.979 92.62 248.979 77.28V40.23H239.359V29.7H248.979V8.38H261.719V29.7H274.459V40.23H261.719V77.67C261.719 84.69 263.669 86.25 269.129 86.25ZM300.791 97.82C287.531 97.82 279.081 90.15 279.081 78.84C279.081 64.02 290.261 59.6 306.771 56.48C317.171 54.53 323.541 53.23 323.541 46.73C323.541 41.92 320.681 37.89 310.931 37.89C299.361 37.89 295.851 41.53 295.201 50.37H282.201C282.851 37.63 291.171 27.62 311.451 27.62C325.101 27.62 336.021 33.34 336.021 50.5V80.92C336.021 85.73 336.671 88.2 339.141 88.2C339.531 88.2 339.921 88.2 340.701 88.07V95.87C338.491 96.39 336.281 96.65 334.201 96.65C327.831 96.65 324.451 94.18 323.671 86.64H323.411C319.121 93.53 311.581 97.82 300.791 97.82ZM303.651 87.55C315.091 87.55 323.541 81.7 323.541 70.13V60.64C321.461 62.59 315.741 64.02 308.981 65.45C297.281 67.79 292.341 71.04 292.341 77.93C292.341 84.17 295.721 87.55 303.651 87.55Z" fill="black"/>
           </g>

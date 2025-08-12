@@ -12,56 +12,79 @@ interface NavbarProps {
 const Navbar = ({ isVisible }: NavbarProps) => {
   const headerRef = useRef(null);
 
-  useGSAP(
-    () => {
-      if (isVisible) {
-        gsap.to(headerRef.current, {
-          y: 0,
-          opacity: 1,
-          duration: 1.5,
-          ease: 'power3.out',
-          delay: 0.5, // A slight delay after the intro finishes
-        });
+  useGSAP(() => {
+    if (!isVisible) return;
+
+    // Enhanced navbar entrance animation
+    const tl = gsap.timeline();
+    
+    // First, slide down from above
+    tl.fromTo(headerRef.current, 
+      {
+        y: -100,
+        opacity: 0,
+        scale: 0.9,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1.2,
+        ease: 'power3.out',
       }
-    },
-    { dependencies: [isVisible], scope: headerRef }
-  );
+    );
+
+    // Add a subtle bounce effect
+    tl.to(headerRef.current, {
+      y: -5,
+      duration: 0.2,
+      ease: 'power2.out',
+    }).to(headerRef.current, {
+      y: 0,
+      duration: 0.3,
+      ease: 'back.out(1.7)',
+    });
+
+  }, { dependencies: [isVisible], scope: headerRef });
 
   return (
-    <header
-      ref={headerRef}
-      className="fixed top-0 left-1/2 -translate-x-1/2 w-[80.21vw] py-6 z-50 opacity-0"
-      style={{ transform: 'translateY(-100%)' }} // Initial position off-screen
-    >
-      <div className="w-full flex justify-between items-center">
-        {/* Logo */}
-        <Link 
-          href="/" 
-          className='font-ppneue font-light text-black text-[2rem]' style={{letterSpacing: '1px'}}
-        >
-          Ankita Sahoo
-        </Link>
-        
-        <nav>
-          <ul className="flex items-center gap-8 text-black font-ppneue tracking-tight uppercase text-[1rem]" style={{fontWeight: 500, letterSpacing: '-0.01em'}}>
-            <li>
-              <Link href="/about" className="font-ppneue">About</Link>
-            </li>
-            <li>
-              <Link href="/projects" className="font-ppneue">Project</Link>
-            </li>
-            <li>
-              <Link
-                href="mailto:example@email.com" 
-                className="font-ppneue"
-              >
-                Email Me
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <div className="sticky top-4 z-50 w-full flex justify-center">
+      <header
+        ref={headerRef}
+        className="w-[60vw] opacity-0 rounded-[20px] border border-white/50 bg-white/30 backdrop-blur-lg shadow-lg"
+        style={{ transform: 'translateY(-100%)' }}
+      >
+        <div className="w-full flex justify-between items-center px-6 py-3">
+          {/* Logo */}
+          <Link 
+            href="/" 
+            className='font-ppneue font-medium text-black text-[2rem]' 
+            style={{letterSpacing: '1px'}}
+          >
+            Kimia Sans
+          </Link>
+          
+          <nav>
+            <ul className="flex items-center gap-8 text-black font-ppneue tracking-tight uppercase text-[1rem]" style={{fontWeight: 500, letterSpacing: '-0.01em'}}>
+              <li>
+                <Link href="/about" className="font-ppneue hover:text-black/70 transition-colors duration-200">About</Link>
+              </li>
+              <li>
+                <Link href="/projects" className="font-ppneue hover:text-black/70 transition-colors duration-200">Project</Link>
+              </li>
+              <li>
+                <Link
+                  href="mailto:example@email.com" 
+                  className="font-ppneue hover:text-black/70 transition-colors duration-200"
+                >
+                  Email Me
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    </div>
   );
 };
 
