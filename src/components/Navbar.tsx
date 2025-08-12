@@ -1,65 +1,43 @@
 'use client';
 
-import { useRef } from 'react';
 import Link from 'next/link';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { motion } from 'framer-motion';
 
 interface NavbarProps {
   isVisible: boolean;
 }
 
 const Navbar = ({ isVisible }: NavbarProps) => {
-  const headerRef = useRef(null);
-
-  useGSAP(() => {
-    if (!isVisible) return;
-
-    // Enhanced navbar entrance animation
-    const tl = gsap.timeline();
-    
-    // First, slide down from above
-    tl.fromTo(headerRef.current, 
-      {
-        y: -100,
-        opacity: 0,
-        scale: 0.9,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1.2,
-        ease: 'power3.out',
-      }
-    );
-
-    // Add a subtle bounce effect
-    tl.to(headerRef.current, {
-      y: -5,
-      duration: 0.2,
-      ease: 'power2.out',
-    }).to(headerRef.current, {
-      y: 0,
-      duration: 0.3,
-      ease: 'back.out(1.7)',
-    });
-
-  }, { dependencies: [isVisible], scope: headerRef });
+  const navVariants = {
+    hidden: {
+      y: '-150%',
+      opacity: 0,
+    },
+    visible: {
+      y: '0%',
+      opacity: 1,
+    },
+  };
 
   return (
     <div className="sticky top-4 z-50 w-full flex justify-center">
-      <header
-        ref={headerRef}
-        className="w-[60vw] opacity-0 rounded-[20px] border border-white/50 bg-white/30 backdrop-blur-lg shadow-lg"
-        style={{ transform: 'translateY(-100%)' }}
+      <motion.header
+        initial="hidden"
+        animate={isVisible ? 'visible' : 'hidden'}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="
+          w-[45vw]                     
+          bg-white/30                  
+          backdrop-blur-lg             
+          border border-white/50       
+          shadow-lg                    
+          rounded-full
+        "
       >
-        <div className="w-full flex justify-between items-center px-6 py-3">
-          {/* Logo */}
+        <div className="w-full flex justify-between items-center px-10 py-3">
           <Link 
             href="/" 
-            className='font-ppneue font-medium text-black text-[2rem]' 
-            style={{letterSpacing: '1px'}}
+            className='font-ppneue font-medium text-black text-[2rem] tracking-tight' 
           >
             Kimia Sans
           </Link>
@@ -83,7 +61,7 @@ const Navbar = ({ isVisible }: NavbarProps) => {
             </ul>
           </nav>
         </div>
-      </header>
+      </motion.header>
     </div>
   );
 };

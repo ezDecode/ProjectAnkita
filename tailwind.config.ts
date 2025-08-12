@@ -10,8 +10,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         ppneue: ['var(--font-ppneue)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        editorial: ['var(--font-editorial)', 'ui-serif', 'serif'],
-        t1korium: ['var(--font-t1korium)', 'ui-serif', 'serif'],
+        editorial: ['var(--font-editorial)', 'ui-serif', 'serif']
       },
     },
   },

@@ -29,7 +29,7 @@ const MainImage = () => {
         scrollTrigger: {
           trigger: '#image-pin-sequence',
           start: 'top top',
-          end: '50% center', 
+          end: '33% top', 
           scrub: 1,
         },
       }
@@ -46,7 +46,6 @@ const MainImage = () => {
           src="/assets/placeholder.png"
           alt="A woman with pigeons flying around her"
           fill
-          // --- FIX: Added the 'grayscale' class to make the image black and white ---
           className="object-cover grayscale"
           priority
         />

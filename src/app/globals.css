@@ -16,6 +16,12 @@
   font-family: var(--font-editorial), ui-serif, serif !important;
 }
 
+/* Specific font-weight classes for editorial font */
+.font-editorial.font-extralight {
+  font-weight: 200 !important;
+  font-family: var(--font-editorial), ui-serif, serif !important;
+}
+
 .font-t1korium {
   font-family: var(--font-t1korium), ui-serif, serif !important;
 }

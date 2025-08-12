@@ -53,32 +53,32 @@ const ppNeue = localFont({
 const PPEditorialNew = localFont({
   src: [
     {
-      path: '../fonts/PPEditorialNew-Ultralight.woff2',
+      path: '../fonts/PPEditorialNew-Ultralight.ttf',
       weight: '200',
       style: 'normal',
     },
     {
-      path: '../fonts/PPEditorialNew-UltralightItalic.woff2',
+      path: '../fonts/PPEditorialNew-UltralightItalic.ttf',
       weight: '200',
       style: 'italic',
     },
     {
-      path: '../fonts/PPEditorialNew-Regular.woff2',
+      path: '../fonts/PPEditorialNew-Regular.ttf',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '../fonts/PPEditorialNew-Italic.woff2',
+      path: '../fonts/PPEditorialNew-Italic.ttf',
       weight: '400',
       style: 'italic',
     },
     {
-      path: '../fonts/PPEditorialNew-Ultrabold.woff2',
+      path: '../fonts/PPEditorialNew-Ultrabold.ttf',
       weight: '800',
       style: 'normal',
     },
     {
-      path: '../fonts/PPEditorialNew-UltraboldItalic.woff2',
+      path: '../fonts/PPEditorialNew-UltraboldItalic.ttf',
       weight: '800',
       style: 'italic',
     },
