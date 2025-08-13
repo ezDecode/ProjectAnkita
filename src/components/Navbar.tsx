@@ -20,7 +20,8 @@ const Navbar = ({ isVisible }: NavbarProps) => {
   };
 
   return (
-    <div className="sticky top-4 z-50 w-full flex justify-center">
+    // Changed 'sticky' to 'fixed' to remove the component from the document flow.
+    <div className="fixed top-5 z-50 w-full flex justify-center">
       <motion.header
         initial="hidden"
         animate={isVisible ? 'visible' : 'hidden'}
@@ -29,8 +30,7 @@ const Navbar = ({ isVisible }: NavbarProps) => {
           w-[45vw]                     
           bg-white/30                  
           backdrop-blur-lg             
-          border border-white/50       
-          shadow-lg                    
+          border-white/50       
           rounded-full
         "
       >
@@ -43,7 +43,7 @@ const Navbar = ({ isVisible }: NavbarProps) => {
           </Link>
           
           <nav>
-            <ul className="flex items-center gap-8 text-black font-ppneue tracking-tight uppercase text-[1rem]" style={{fontWeight: 500, letterSpacing: '-0.01em'}}>
+            <ul className="flex items-center gap-8 text-black font-ppneue tracking-tight text-[1.25rem]" style={{fontWeight: 500, letterSpacing: '-0.01em'}}>
               <li>
                 <Link href="/about" className="font-ppneue hover:text-black/70 transition-colors duration-200">About</Link>
               </li>
@@ -52,7 +52,7 @@ const Navbar = ({ isVisible }: NavbarProps) => {
               </li>
               <li>
                 <Link
-                  href="mailto:example@email.com" 
+                  href="mailto:ankitasahoo370@email.com" 
                   className="font-ppneue hover:text-black/70 transition-colors duration-200"
                 >
                   Email Me
