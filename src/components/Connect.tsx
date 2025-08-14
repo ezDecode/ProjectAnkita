@@ -1,111 +1,99 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform, Variants } from 'framer-motion';
-// PLAN EXECUTED: Removed imports for deleted components.
+import { useRef, FC, ReactNode } from 'react';
+import { motion, useScroll, useTransform, useInView, Variants, MotionValue } from 'framer-motion';
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.5, // Delay children to allow background to animate
-    },
-  },
+// --- Variants remain the same ---
+const containerVariants: Variants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.3, delayChildren: 0.2 } } };
+const itemVariants: Variants = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } } };
+
+// --- Reusable SVG Icon ---
+const ArrowIcon: FC = () => (
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 12H19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+// PLAN EXECUTED: A completely redesigned SocialLink component to match the reference image.
+interface SocialLinkProps {
+  href: string;
+  children: ReactNode;
+  color: MotionValue<string>;
+}
+
+const SocialLink: FC<SocialLinkProps> = ({ href, children, color }) => {
+  return (
+    <motion.a
+      href={href}
+      target="_blank"
+      // The `group` utility is no longer needed as the hover is self-contained.
+      className="flex items-center gap-4"
+      style={{ color }}
+      whileHover="hover"
+      initial="initial"
+      variants={itemVariants} // Use the same fade-in variant as other items
+    >
+      <span className="font-ppneue text-4xl font-medium tracking-tight">
+        {children}
+      </span>
+      <motion.div
+        variants={{
+          initial: { rotate: 0 },
+          hover: { rotate: -45 }, // A sophisticated -45 degree "launch" rotation
+        }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+      >
+        <ArrowIcon />
+      </motion.div>
+    </motion.a>
+  );
 };
 
-const leftColumnVariants: Variants = {
-  hidden: { opacity: 0, x: -50 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
-  },
-};
-
-const rightColumnVariants: Variants = {
-  hidden: { opacity: 0, x: 50 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
-  },
-};
-
-// PLAN EXECUTED: Defined variants for list items directly in this component.
-const linkItemVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
 
 const Connect = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end center"],
-  });
-
-  const scale = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const backgroundColor = useTransform(scrollYProgress, [0, 0.2], ["#000000", "#e4e4dd"]);
+  const isInView = useInView(sectionRef, { amount: 0.3 });
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const background = useTransform(scrollYProgress, [0, 0.4], ["#000000", "#e4e4dd"]);
+  const color = useTransform(scrollYProgress, [0, 0.4], ["#FFFFFF", "#000000"]);
 
   return (
-    <section ref={sectionRef} className="relative h-[150vh] w-full">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <motion.div
-          style={{ scale, backgroundColor }}
-          className="absolute inset-0 h-full w-full origin-center rounded-full"
-        />
-
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="relative z-10 grid h-full w-full grid-cols-1 items-end gap-12 px-10 py-20 md:grid-cols-2"
-        >
-          {/* Left Column */}
-          <motion.div
-            variants={leftColumnVariants}
-            className="flex flex-col items-start gap-8"
-          >
-            <p className="font-ppneue text-lg font-medium">Have a project in mind?</p>
-            <h2 className="font-editorial text-6xl font-light text-black/90 md:text-7xl">
-              Let's create something remarkable.
-            </h2>
-            {/* PLAN EXECUTED: Replaced MagneticButton with a standard, styled <a> tag. */}
-            <a
+    <motion.section ref={sectionRef} style={{ backgroundColor: background }} className="relative h-screen w-full">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        className="grid h-full w-full grid-cols-1 items-center gap-12 px-10 py-24 md:grid-cols-2"
+      >
+        {/* Left Column: Call to Action */}
+        <div className="flex flex-col items-start gap-12">
+          <motion.p variants={itemVariants} style={{ color }} className="font-ppneue text-xl font-medium">
+            Let's talk.
+          </motion.p>
+          <motion.h2 variants={itemVariants} style={{ color }} className="font-editorial text-8xl font-light md:text-9xl leading-none">
+            Have a complex challenge?
+          </motion.h2>
+          <motion.div variants={itemVariants}>
+            <motion.a
               href="mailto:example@email.com"
-              className="relative z-10 block rounded-full bg-black px-10 py-6 text-lg font-medium text-white transition-colors hover:bg-black/90"
+              className="relative z-10 block rounded-full bg-black px-12 py-7 text-xl font-medium text-white"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
             >
               Email Me
-            </a>
+            </motion.a>
           </motion.div>
+        </div>
 
-          {/* Right Column */}
-          <motion.ul 
-            variants={rightColumnVariants}
-            className="flex flex-col items-start gap-4 font-ppneue md:items-end"
-          >
-            {/* PLAN EXECUTED: Replaced HoverLink with motion.li and a styled <a> tag. */}
-            <motion.li variants={linkItemVariants}>
-              <a href="#" target="_blank" className="relative inline-block text-2xl font-medium after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-black after:transition-transform after:duration-400 after:ease-[cubic-bezier(0.6,0.01,-0.05,0.95)] hover:after:scale-x-100">
-                LinkedIn
-              </a>
-            </motion.li>
-            <motion.li variants={linkItemVariants}>
-              <a href="#" target="_blank" className="relative inline-block text-2xl font-medium after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-black after:transition-transform after:duration-400 after:ease-[cubic-bezier(0.6,0.01,-0.05,0.95)] hover:after:scale-x-100">
-                GitHub
-              </a>
-            </motion.li>
-            <motion.li variants={linkItemVariants}>
-              <a href="#" target="_blank" className="relative inline-block text-2xl font-medium after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-black after:transition-transform after:duration-400 after:ease-[cubic-bezier(0.6,0.01,-0.05,0.95)] hover:after:scale-x-100">
-                Twitter
-              </a>
-            </motion.li>
-          </motion.ul>
-        </motion.div>
-      </div>
-    </section>
+        {/* PLAN EXECUTED: Right Column using the new, cleaner SocialLink component */}
+        <div className="flex h-full flex-col items-start justify-end gap-8 font-ppneue md:items-end">
+          <SocialLink href="#" color={color}>LinkedIn</SocialLink>
+          <SocialLink href="#" color={color}>GitHub</SocialLink>
+          <SocialLink href="#" color={color}>Twitter</SocialLink>
+        </div>
+      </motion.div>
+    </motion.section>
   );
 };
 

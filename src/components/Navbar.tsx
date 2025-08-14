@@ -39,7 +39,7 @@ const Navbar = ({ isVisible }: NavbarProps) => {
             href="/" 
             className='font-ppneue font-medium text-black text-[2rem] tracking-tight' 
           >
-            Kimia Sans
+            Ankita Sahoo
           </Link>
           
           <nav>
