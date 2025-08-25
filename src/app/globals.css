@@ -33,6 +33,13 @@ body {
   font-family: var(--font-ppneue), ui-sans-serif, system-ui, sans-serif;
 }
 
+
+.text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9);
+}
+
+
 /* Styles for the Connect Section */
 @keyframes marquee {
   0% {

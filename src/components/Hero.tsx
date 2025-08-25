@@ -1,79 +1,74 @@
 'use client';
 
-import React, { useRef } from 'react';
-import { motion, Variants, useInView } from 'framer-motion';
+import React from 'react';
+import { motion, Variants } from 'framer-motion';
 import TextRevealByTime from '@/components/TextRevealByTime';
 
 interface HeroProps {
   isAnimated: boolean;
 }
 
-// Animation variants remain the same.
-const heroVariants: Variants = {
+// Variants for a clean, staggered entrance animation
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.2,
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
     },
   },
 };
 
-const headlineVariants: Variants = {
-  hidden: { y: 20, opacity: 0 },
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
   visible: {
-    y: 0,
     opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.22, 1, 0.36, 1],
-    },
+    y: 0,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
-// PLAN EXECUTED: Removed forwardRef, as it's no longer needed.
-// The component now manages its own view-tracking.
 const Hero = ({ isAnimated }: HeroProps) => {
-  const sectionRef = useRef<HTMLElement>(null);
-  // PLAN EXECUTED: Added useInView to track if the component is on screen.
-  const isInView = useInView(sectionRef, { amount: 0.3 });
-
-  // PLAN EXECUTED: The animation triggers only when the intro is finished AND it's in view.
-  const canAnimate = isAnimated && isInView;
-
   return (
-    <section ref={sectionRef} className="relative z-0 h-screen w-full">
-      <div className="relative z-10 h-full w-full flex items-center justify-center">
-        <motion.div
-          className="w-[85vw] mx-auto text-center"
-          initial="hidden"
-          animate={canAnimate ? 'visible' : 'hidden'}
-          variants={heroVariants}
+    <section className="relative z-0 h-screen w-full bg-black">
+      {/* Container for layout and animation */}
+      <motion.div
+        className="flex h-full w-full flex-col items-center justify-center text-center"
+        initial="hidden"
+        // PLAN EXECUTED: Animation trigger is now simpler and more robust.
+        animate={isAnimated ? 'visible' : 'hidden'}
+        variants={containerVariants}
+      >
+        {/* Headline */}
+        <motion.h1
+          className="font-editorial text-[7vw] font-light leading-none tracking-tight text-white"
+          variants={itemVariants}
         >
-          <motion.h1
-            className="font-ppneue font-medium text-[9vw] font-light text-white leading-none tracking-tight"
-            variants={headlineVariants}
-          >
-            <div>Spark of <span className="font-editorial font-light">Intelligence</span></div>
-          </motion.h1>
+          <div>Where Data</div>
+          <div className="mt-[-1.5vw]">Finds Its <span className="font-ppneue font-medium italic">Voice.</span></div>
+        </motion.h1>
 
-          <motion.div variants={headlineVariants}>
-            <TextRevealByTime
-              text="A Machine Learning Engineer turning complex datasets into insightful, production-ready solutions."
-              className="w-[60vw] font-ppneue font-medium text-[2rem] leading-snug text-white/80 mt-12 mx-auto"
-              trigger={canAnimate} // The trigger is now the combined state.
-              startDelay={0}
-            />
-          </motion.div>
+        {/* Subtext */}
+        <motion.div className="mt-12 max-w-2xl px-10" variants={itemVariants}>
+          <TextRevealByTime
+            text="A Machine Learning Engineer building intelligent systems that speak in insights, not just numbers."
+            className="font-ppneue text-xl leading-relaxed text-white/70"
+            // The trigger is passed down from the parent container's state.
+            trigger={isAnimated}
+            startDelay={0} // Delay is handled by parent stagger.
+            wordDelay={0.02}
+          />
         </motion.div>
-      </div>
+      </motion.div>
 
+      {/* Atmospheric Background Gradient */}
       <div
         className="absolute inset-0 z-0 h-full w-full"
         style={{
-          background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(220, 38, 38, 0.15), transparent 70%), #000000",
+          background: `radial-gradient(ellipse 80% 60% at 50% 0%, rgba(220, 38, 38, 0.25), transparent 70%), #000000`,
         }}
+        aria-hidden="true"
       />
     </section>
   );

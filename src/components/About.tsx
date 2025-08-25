@@ -16,7 +16,6 @@ const imageVariants: Variants = { initial: { scale: 1.2, opacity: 0.5 }, animate
 const About = React.forwardRef<HTMLDivElement>((props, ref) => {
   const paragraphText = "My fascination isn't just with algorithms; it's with the stories hidden within the data. I see patterns as narratives waiting to be told. My role is to be their interpreter—to architect the systems that translate raw information not just into predictions, but into tangible, insightful realities that drive decisions and create value.";
   
-  // This ref and hook will re-trigger the paragraph animation every time it's in view.
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const isParagraphInView = useInView(paragraphRef, { amount: 0.3 });
 
@@ -26,7 +25,6 @@ const About = React.forwardRef<HTMLDivElement>((props, ref) => {
         variants={sectionVariants}
         initial="initial"
         whileInView="animate"
-        // PLAN EXECUTED: Removed `once: true` to allow the animation to replay on each scroll.
         viewport={{ amount: 0.3 }}
         className="w-[85vw] max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center"
       >
@@ -45,8 +43,10 @@ const About = React.forwardRef<HTMLDivElement>((props, ref) => {
             wordDelay={0.02} 
           />
         </motion.div>
-        <motion.div className="relative w-full aspect-[3/4] overflow-hidden rounded-2xl" variants={rightColumnVariants}>
-          <motion.div variants={imageVariants} className="w-full h-full">
+        {/* The parent of the Image wrapper is already relative, which is good. */}
+        <motion.div className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl" variants={rightColumnVariants}>
+          {/* PLAN EXECUTED: Added 'relative' to the direct parent of the Image component to fix the error. */}
+          <motion.div variants={imageVariants} className="relative w-full h-full">
             <Image src="/assets/placeholder.png" alt="A portrait of Ankita Sahoo" fill className="object-cover" sizes="(max-width: 768px) 85vw, 40vw" />
           </motion.div>
         </motion.div>
