@@ -8,11 +8,6 @@
   scrollbar-width: none;
 }
 
-/* 
-  PLAN EXECUTED: Removed the unnecessary and confusing .font-ppneue class. 
-  The project now exclusively uses Inter Tight for sans-serif text.
-*/
-
 /* Ensure fonts are loaded and applied */
 .font-editorial {
   font-family: var(--font-editorial), ui-serif, serif !important;
@@ -24,6 +19,9 @@
   font-family: var(--font-editorial), ui-serif, serif !important;
 }
 
+.font-t1korium {
+  font-family: var(--font-t1korium), ui-serif, serif !important;
+}
 
 /* Base body font is now Inter Tight */
 body {
@@ -62,4 +60,10 @@ body {
   letter-spacing: 0.05em;
   white-space: nowrap;
   padding: 0 2rem;
+}
+
+/* PLAN EXECUTED: Added a subtle, custom text selection color for a more polished feel. */
+::selection {
+  background-color: #A0A096; /* A soft, warm gray */
+  color: #FFFFFF; /* Crisp white text for contrast */
 }

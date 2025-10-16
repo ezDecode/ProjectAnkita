@@ -1,87 +1,81 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useTransform, Variants } from 'framer-motion';
+import React from 'react';
+import { motion, Variants } from 'framer-motion';
+import Image from 'next/image';
 
-// --- Sub-component for the animated Kinetic Digit ---
-// This creates the "slot machine" effect for a single number
-const KineticDigit = ({ finalDigit, isAnimated }: { finalDigit: number; isAnimated: boolean }) => {
-    const [isCounting, setIsCounting] = useState(true);
-    // A spring animation that goes from 0 to 100
-    const spring = useSpring(0, { mass: 0.1, stiffness: 100, damping: 10 });
-    
-    // Map the spring's output to cycle through numbers 0-9
-    const displayDigit = useTransform(spring, (current) => 
-        Math.round(current) % 10
-    );
-
-    useEffect(() => {
-        let timeout: NodeJS.Timeout;
-        if (isAnimated) {
-            // Start the spring animation
-            spring.set(100);
-            // After a delay, stop the cycling and settle on the final digit
-            timeout = setTimeout(() => {
-                spring.set(finalDigit);
-                setIsCounting(false);
-            }, 1500);
-        } else {
-            spring.set(finalDigit);
-        }
-        return () => clearTimeout(timeout);
-    }, [isAnimated, spring, finalDigit]);
-
-    return <motion.span>{isCounting ? displayDigit : finalDigit}</motion.span>;
-};
-
-
-// --- Main Animation Variants ---
-const textContainerVariants: Variants = {
+// --- Animation Variants (unchanged) ---
+const containerVariants: Variants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.2, delay: 1.8 } },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.15, delayChildren: 0.3 },
+    },
 };
 
-const textVariants: Variants = {
+const fadeUpVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+    visible: {
+        opacity: 1, y: 0,
+        transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    },
 };
 
-// --- Main Hero Component ---
-const Hero = ({ isAnimated }: { isAnimated: boolean }) => {
-    const year = new Date().getFullYear().toString().split('').map(Number); // [2, 0, 2, 4]
 
+// --- The Main Hero Component ---
+const Hero = ({ isAnimated }: { isAnimated: boolean }) => {
     return (
-        <section className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#101010]">
-            <div className="relative z-10 text-center">
-                
-                {/* The Kinetic Counter */}
-                <div className="flex justify-center font-mono text-[28vw] font-bold leading-none tracking-tighter text-white md:text-[20vw]">
-                    {year.map((digit, index) => (
-                        <KineticDigit key={index} finalDigit={digit} isAnimated={isAnimated} />
-                    ))}
-                </div>
-                
-                {/* The Main Text Content */}
-                <motion.div
-                    className="mt-8"
-                    variants={textContainerVariants}
-                    initial="hidden"
-                    animate={isAnimated ? 'visible' : 'hidden'}
-                >
-                    <motion.h1
-                        variants={textVariants}
-                        className="font-editorial text-5xl font-medium text-white sm:text-7xl"
-                    >
-                        Ankita Sahoo
-                    </motion.h1>
-                    <motion.p
-                        variants={textVariants}
-                        className="mt-2 font-inter text-lg text-white/50"
+        <section className="relative w-full bg-[#e4e4dd] min-h-screen flex flex-col items-center justify-center">
+            <motion.div
+                className="relative w-full max-w-7xl text-center px-8 py-16"
+                variants={containerVariants}
+                initial="hidden"
+                animate={isAnimated ? 'visible' : 'hidden'}
+            >
+                {/* --- Introductory Text --- */}
+                <motion.p variants={fadeUpVariants} className="font-inter text-2xl text-black/70 mb-4">
+                    Hi! I'm Ankita Sahoo
+                </motion.p>
+
+                {/* --- The Main Typographic Block --- */}
+                <div className="relative mx-auto w-full">
+                    
+                    <motion.h2
+                        variants={fadeUpVariants}
+                        className="font-inter text-[7.2vw] md:text-[5.76vw] font-medium leading-none tracking-tighter text-black/90 whitespace-nowrap"
                     >
                         Machine Learning Engineer
-                    </motion.p>
-                </motion.div>
-            </div>
+                    </motion.h2>
+
+                    <motion.h2
+                        variants={fadeUpVariants}
+                        className="mt-[1vw] font-inter text-[5.76vw] md:text-[4.32vw] font-medium leading-none tracking-tighter text-black/90 flex items-center justify-center gap-[1.5vw]"
+                    >
+                        <div className="relative inline-block h-[1.5em] aspect-square p-1 rounded-xl bg-white/40 backdrop-blur-md border border-white/50 shadow-md">
+                           <div className="relative w-full h-full rounded-lg overflow-hidden">
+                                <Image 
+                                    src="/assets/placeholder.png" 
+                                    alt="Ankita's Location" 
+                                    fill 
+                                    className="object-cover"
+                                />
+                            </div>
+                        </div>
+                        <span className="font-editorial font-light italic">based in</span> 
+                        <span className="bg-black text-white px-3 py-1 rounded-lg">Bangalore.</span>
+                    {/* PLAN EXECUTED: Removed the extra space in the closing tag to fix the critical syntax error. */}
+                    </motion.h2>
+
+                </div>
+                
+                {/* --- The Descriptive Paragraph --- */}
+                <motion.p
+                    variants={fadeUpVariants}
+                    className="max-w-4xl mx-auto mt-12 font-inter text-xl text-black/80 leading-relaxed"
+                >
+                    <strong className="font-medium text-black">5 years</strong> delivering solutions across various industries. I pair strong <strong className="font-medium text-black">machine learning</strong> skills with expertise in <strong className="font-medium text-black">strategy and architecture</strong> aligned with <strong className="font-medium text-black">business</strong> objectives. My experience spans diverse sectors: retail, tech startups, healthcare, sports, B2B companies, institutions...
+                </motion.p>
+            </motion.div>
         </section>
     );
 };
