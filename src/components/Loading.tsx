@@ -33,7 +33,7 @@ const Loading = ({ onComplete }: LoadingProps) => {
     });
 
     // PLAN EXECUTED: Each satellite now gets its own independent, randomized orbit animation.
-    gsap.utils.toArray<HTMLDivElement>('.satellite').forEach((sat, index) => {
+    gsap.utils.toArray<HTMLDivElement>('.satellite').forEach((sat) => {
       gsap.to(sat, {
         duration: gsap.utils.random(8, 12), // Randomized duration for a natural feel.
         rotation: "+=360", // Continuous rotation from its starting point.

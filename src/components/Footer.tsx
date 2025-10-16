@@ -57,7 +57,7 @@ const Footer = () => {
               variants={itemVariants}
               className="text-center font-editorial text-5xl font-light leading-tight text-white md:text-7xl"
             >
-              Let's Build Together
+              Let&apos;s Build Together
             </motion.h2>
             
             {/* PLAN EXECUTED: Added new, descriptive text to enrich the content. */}
@@ -65,7 +65,7 @@ const Footer = () => {
               variants={itemVariants} 
               className="mx-auto mt-6 max-w-3xl text-lg text-white/70"
             >
-              I specialize in architecting intelligent systems that are not only technically robust but are strategically aligned with business objectives. If you have a challenge that data can solve, let's discuss how we can create tangible value.
+              I specialize in architecting intelligent systems that are not only technically robust but are strategically aligned with business objectives. If you have a challenge that data can solve, let&apos;s discuss how we can create tangible value.
             </motion.p>
 
             <motion.div variants={itemVariants} className="mt-10">

@@ -79,7 +79,7 @@ const About = React.forwardRef<HTMLDivElement>((props, ref) => {
                 >
                     <h3 className="font-inter text-2xl font-medium text-black/90">Engineer & Innovator</h3>
                     <p className="mt-4 font-inter text-lg text-black/70 leading-relaxed">
-                        My fascination isn't just with algorithms; it's with the stories hidden within data. I architect intelligent systems that translate raw information into realities that drive decisions and create value.
+                        My fascination isn&apos;t just with algorithms; it&apos;s with the stories hidden within data. I architect intelligent systems that translate raw information into realities that drive decisions and create value.
                     </p>
                 </motion.div>
 

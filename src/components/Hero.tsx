@@ -34,7 +34,7 @@ const Hero = ({ isAnimated }: { isAnimated: boolean }) => {
             >
                 {/* --- Introductory Text --- */}
                 <motion.p variants={fadeUpVariants} className="font-inter text-2xl text-black/70 mb-4">
-                    Hi! I'm Ankita Sahoo
+                    Hi! I&apos;m Ankita Sahoo
                 </motion.p>
 
                 {/* --- The Main Typographic Block --- */}
