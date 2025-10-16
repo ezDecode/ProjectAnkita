@@ -1,3 +1,4 @@
+// src/app/page.tsx
 'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
@@ -36,7 +37,6 @@ export default function Home() {
       <Navbar isVisible={isIntroFinished} />
       
       <main className="relative">
-        {/* This prop is now correctly accepted by the new Hero component, fixing the error. */}
         <Hero isAnimated={isIntroFinished} />
         <About />
         <LatestProjects />

@@ -1,104 +1,120 @@
+// src/components/LatestProjects.tsx
 'use client';
 
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
+import { PROJECTS_DATA, Project } from '@/data/projects';
 
-export type ProjectItem = {
-  title: string;
-  description: string;
-  imageSrc: string;
-  tags?: string[];
-  href?: string;
-  year?: string;
-  category?: string;
-};
+// Using the top 4 projects for a substantial but focused showcase.
+const FEATURED_PROJECTS = PROJECTS_DATA.slice(0, 4);
 
-type LatestProjectsProps = {
-  projects?: ProjectItem[];
-  className?: string;
-};
-
-const DEFAULT_PROJECTS: ProjectItem[] = [
-    { title: 'Neural Architecture Search', description: 'Challenge: Move beyond human intuition in network design. This automated system uses evolutionary algorithms to discover novel, high-performance architectures.', imageSrc: '/assets/placeholder.png', tags: ['AutoML', 'PyTorch', 'Ray', 'Kubernetes'], year: '2024', category: 'Research' },
-    { title: 'Real-time Anomaly Detection', description: 'Requirement: Sub-millisecond fraud detection. Engineered a high-throughput streaming ML pipeline to identify outliers in real-time transaction data.', imageSrc: '/assets/placeholder.png', tags: ['Apache Kafka', 'TensorFlow', 'Redis', 'gRPC'], year: '2024', category: 'Production' },
-    { title: 'Multimodal AI Assistant', description: 'Bridging the gap between code and comprehension. A fine-tuned LLM with integrated computer vision, built to generate technical documentation from multiple data sources.', imageSrc: '/assets/placeholder.png', tags: ['Transformers', 'CLIP', 'FastAPI', 'Docker'], year: '2023', category: 'AI/ML' },
-    { title: 'Distributed Training Framework', description: 'Problem: Training massive models is slow and prone to failure. Solution: A custom framework for distributed training across GPU clusters with automatic fault tolerance.', imageSrc: '/assets/placeholder.png', tags: ['PyTorch', 'NCCL', 'Kubernetes', 'MLOps'], year: '2023', category: 'Infrastructure' },
-    { title: 'Computer Vision for Diagnostics', description: 'Goal: FDA-grade accuracy for medical imaging. An end-to-end, HIPAA-compliant pipeline providing diagnostic assistance for clinicians.', imageSrc: '/assets/placeholder.png', tags: ['Medical AI', 'DICOM', 'TensorRT', 'AWS'], year: '2023', category: 'Healthcare' },
-];
-
-export default function LatestProjects({
-  projects = DEFAULT_PROJECTS,
-  className = '',
-}: LatestProjectsProps) {
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
+export default function LatestProjects() {
+  const [activeProject, setActiveProject] = useState<Project>(FEATURED_PROJECTS[0]);
 
   return (
-    <section 
-      ref={sectionRef} 
-      style={{ height: `${projects.length * 120}vh` }}
-      className={`relative w-full z-10 bg-black ${className}`} 
-    >
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center">
-        <div className="mb-16 text-center pt-24">
-            <h2 className="font-editorial font-extralight text-[8rem] leading-none text-white tracking-tight">
-                Selected Works.
+    // PLAN EXECUTED: Added a min-height and adjusted padding to ensure the sticky scroll effect is prominent.
+    <section className="relative w-full z-10 bg-black text-white min-h-screen flex flex-col justify-center py-24 sm:py-32">
+      <div className="w-full max-w-7xl mx-auto px-8">
+        
+        {/* PLAN EXECUTED: The section header has been rewritten and restyled for better impact. */}
+        <div className="mb-20 text-center">
+            <h2 className="font-editorial font-extralight text-6xl sm:text-8xl leading-none tracking-tighter">
+                Selected Case Studies
             </h2>
-            {/* PLAN EXECUTED: Replaced 'font-ppneue' with 'font-inter' */}
-            <p className="font-inter text-white/60 text-lg mt-2 max-w-xl">
-                A curated selection of my recent work in machine learning and AI systems.
+            <p className="font-inter text-white/70 text-lg mt-6 max-w-2xl mx-auto">
+                A showcase of my recent work in machine learning and AI systems. Each project represents a unique challenge and a tailored, high-performance solution.
             </p>
         </div>
-
-        <div className="relative h-[70vh] w-[85vw] max-w-6xl">
-        {projects.map((project, index) => (
-            <ProjectCard 
-            key={`${project.title}-${index}`}
-            item={project}
-            index={index}
-            totalProjects={projects.length}
-            progress={scrollYProgress}
-            />
-        ))}
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-24 items-start">
+          {/* Left Column: Project Titles */}
+          <div className="flex flex-col gap-y-2 md:sticky md:top-32">
+            {FEATURED_PROJECTS.map((project) => (
+              <ProjectTitle 
+                key={project.id} 
+                project={project}
+                isActive={activeProject.id === project.id}
+                setActiveProject={setActiveProject}
+              />
+            ))}
+            <Link href="/projects" className="group mt-8 flex items-center gap-3 rounded-full bg-white/10 px-6 py-3 text-lg font-inter font-medium text-white backdrop-blur-lg border border-white/20 transition-all hover:bg-white/20 w-fit">
+                <span>View Full Archive</span>
+                <span className="transition-transform group-hover:translate-x-1.5">→</span>
+            </Link>
+          </div>
+          
+          {/* Right Column: Image & Description */}
+          <div className="md:sticky md:top-32 w-full">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-2xl border border-white/10">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeProject.id}
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={activeProject.imageSrc}
+                    alt={activeProject.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 90vw, 45vw"
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            
+            {/* PLAN EXECUTED: The project description and tags are now displayed, providing essential context. */}
+            <motion.div 
+              className="mt-6"
+              key={`${activeProject.id}-info`}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.15 }}
+            >
+              <p className="font-inter text-white/70 leading-relaxed text-base">
+                {activeProject.description}
+              </p>
+              <div className="flex flex-wrap gap-2.5 mt-4">
+                  {activeProject.tags.map(tag => (
+                      <div key={tag.name} className="px-3 py-1 text-sm bg-white/[0.08] text-white/90 rounded-full font-medium">
+                          {tag.name}
+                      </div>
+                  ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function ProjectCard({ item, index, totalProjects, progress }: { item: ProjectItem; index: number; totalProjects: number; progress: MotionValue<number>; }) {
-  const start = index / totalProjects;
-  const end = start + (1 / totalProjects);
-  const opacity = useTransform(progress, [start, start + 0.1, end - 0.1, end], [0, 1, 1, 0]);
-  const y = useTransform(progress, [start, end], ['-5%', '5%']);
-  const cardScale = useTransform(progress, [start, start + 0.1, end - 0.1, end], [0.9, 1, 1, 0.9]);
+const ProjectTitle = ({ project, isActive, setActiveProject }: { project: Project; isActive: boolean; setActiveProject: (project: Project) => void; }) => {
   return (
-    <motion.div className="absolute inset-0 grid grid-cols-1 md:grid-cols-2 gap-x-12 items-center" style={{ opacity, y, scale: cardScale }}>
-      <motion.div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
-        <Image src={item.imageSrc} alt={item.title} fill className="object-cover" sizes="(max-width: 768px) 85vw, 40vw" priority={index < 2} />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-      </motion.div>
-      <div className="flex flex-col gap-y-6 text-white text-left">
-        <div className="flex items-baseline gap-4">
-          <span className="font-editorial text-5xl text-white/40">{String(index + 1).padStart(2, '0')}</span>
-          <h3 className="font-editorial font-light text-[3rem] leading-tight tracking-tight text-white">{item.title}</h3>
-        </div>
-        {/* PLAN EXECUTED: Replaced 'font-ppneue' with 'font-inter' */}
-        <p className="font-inter text-lg leading-relaxed text-white/75 max-w-lg">{item.description}</p>
-        {item.tags && (
-          <div className="flex flex-wrap gap-3 pt-2">
-            {item.tags.map((tag) => (
-              // PLAN EXECUTED: Replaced 'font-ppneue' with 'font-inter'
-              <motion.span key={tag} className="inline-flex items-center px-4 py-2 rounded-full border border-white/20 bg-white/[0.07] backdrop-blur-sm text-sm font-inter text-white/90 font-medium" whileHover={{ borderColor: "rgba(255, 255, 255, 0.4)", backgroundColor: "rgba(255, 255, 255, 0.1)" }}>{tag}</motion.span>
-            ))}
-          </div>
+    <div onMouseEnter={() => setActiveProject(project)} className="w-full">
+      <motion.div 
+        className="relative cursor-pointer py-4 px-5 rounded-xl transition-colors"
+        animate={{ backgroundColor: isActive ? 'rgba(255, 255, 255, 0.07)' : 'transparent' }}
+      >
+        <motion.p 
+          className="font-editorial text-4xl font-light transition-colors"
+          animate={{ color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.5)' }}
+        >
+          {project.title}
+        </motion.p>
+        {isActive && (
+          <motion.div 
+            className="absolute left-0 top-1/4 bottom-1/4 w-1 bg-white rounded-full"
+            layoutId="active-showcase-indicator"
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+          />
         )}
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
-}
+};
