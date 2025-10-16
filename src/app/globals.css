@@ -19,10 +19,6 @@
   font-family: var(--font-editorial), ui-serif, serif !important;
 }
 
-.font-t1korium {
-  font-family: var(--font-t1korium), ui-serif, serif !important;
-}
-
 /* Base body font is now Inter Tight */
 body {
   font-family: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
@@ -66,4 +62,83 @@ body {
 ::selection {
   background-color: #A0A096; /* A soft, warm gray */
   color: #FFFFFF; /* Crisp white text for contrast */
+}
+
+/* --- Styles for the GSAP Kinetic Skew Loader --- */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #e4e4dd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent glows from showing scrollbars */
+}
+
+.orb-container {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* filter: blur(8px); */
+}
+
+.orb-main {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  /* PLAN EXECUTED: Volumetric gradient for a celestial feel. */
+  background: radial-gradient(circle at 30% 30%, #4a4a5a, #171717 80%);
+  border-radius: 50%;
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.3);
+}
+
+.satellite {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  /* These will be animated to orbit the center */
+}
+
+.satellite::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #5c5c6c, #2a2a3a);
+}
+
+/* Position and size the satellites differently for a more dynamic system */
+.satellite {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center; 
+}
+
+.satellite-orb {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #5c5c6c, #2a2a3a);
+}
+
+
+.loader-text {
+  font-family:  "Inter Tight", serif, serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #171717;
+  margin-top: 4rem;
+  opacity: 0;
+  transform: translateY(20px);
 }
