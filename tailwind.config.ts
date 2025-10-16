@@ -9,7 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        ppneue: ['var(--font-ppneue)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        // PLAN EXECUTED: Replaced 'ppneue' with 'inter' using the Inter Tight font.
+        inter: ['Inter Tight', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         editorial: ['var(--font-editorial)', 'ui-serif', 'serif']
       },
     },

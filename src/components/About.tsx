@@ -1,59 +1,107 @@
 'use client';
 
-import React, { useRef } from 'react';
-import { motion, useInView, Variants } from 'framer-motion';
+import React from 'react';
+import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
-import TextRevealByTime from '@/components/TextRevealByTime';
 
-// Animation variants remain the same.
-const sectionVariants: Variants = { initial: { opacity: 1 }, animate: { opacity: 1, transition: { staggerChildren: 0.2 } } };
-const leftColumnVariants: Variants = { initial: { x: -50, opacity: 0 }, animate: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } } };
-const textVariants: Variants = { initial: { y: 20, opacity: 0 }, animate: { y: 0, opacity: 1, transition: { duration: 0.8, ease: "easeOut" } } };
-const dividerVariants: Variants = { initial: { scaleX: 0 }, animate: { scaleX: 1, transition: { duration: 1, ease: [0.6, 0.01, -0.05, 0.95], delay: 0.3 } } };
-const rightColumnVariants: Variants = { initial: { x: 50, opacity: 0 }, animate: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } } };
-const imageVariants: Variants = { initial: { scale: 1.2, opacity: 0.5 }, animate: { scale: 1, opacity: 1, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } } };
+// --- Data for the component ---
+const SKILLS = ["PyTorch", "TensorFlow", "Kubernetes", "Docker", "MLOps", "AWS", "GCP", "Python"];
+const CTA_LINK = "#"; // Replace with your actual LinkedIn profile URL
 
+// --- Animation Variants ---
+const gridVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+};
+
+const cellVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+};
+
+
+// --- Main About Component ---
 const About = React.forwardRef<HTMLDivElement>((props, ref) => {
-  const paragraphText = "My fascination isn't just with algorithms; it's with the stories hidden within the data. I see patterns as narratives waiting to be told. My role is to be their interpreter—to architect the systems that translate raw information not just into predictions, but into tangible, insightful realities that drive decisions and create value.";
-  
-  const paragraphRef = useRef<HTMLParagraphElement>(null);
-  const isParagraphInView = useInView(paragraphRef, { amount: 0.3 });
+    return (
+        <section ref={ref} className="relative w-full bg-[#e4e4dd] py-24 sm:py-32">
+            <motion.div
+                // --- The Bento Grid Container ---
+                className="mx-auto w-full max-w-7xl px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                variants={gridVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+            >
+                {/* Cell 1: Impactful Typographic Statement */}
+                <motion.div
+                    variants={cellVariants}
+                    className="lg:col-span-2 rounded-3xl bg-white/50 p-8 flex flex-col justify-center backdrop-blur-lg border border-white"
+                >
+                    <h2 className="font-editorial text-4xl sm:text-5xl font-light text-black/90">
+                        Bridging the gap between raw data and tangible reality.
+                    </h2>
+                </motion.div>
+                
+                {/* Cell 2: Profile Image */}
+                <motion.div
+                    variants={cellVariants}
+                    className="relative aspect-square w-full rounded-3xl overflow-hidden shadow-xl"
+                >
+                    <Image src="/assets/placeholder.png" alt="A portrait of Ankita Sahoo" fill className="object-cover" sizes="(max-width: 768px) 90vw, 30vw"/>
+                </motion.div>
+                
+                {/* Cell 3: Interactive Call-to-Action (CTA) */}
+                <motion.a
+                    variants={cellVariants}
+                    href={CTA_LINK}
+                    target="_blank"
+                    className="relative group aspect-square w-full rounded-3xl bg-[#1A1A1A] p-8 flex flex-col justify-between"
+                    whileHover="hover"
+                >
+                    <div>
+                        <motion.div
+                            className="text-3xl text-white transition-transform"
+                            variants={{ hover: { x: 5 } }}
+                        >
+                            →
+                        </motion.div>
+                    </div>
+                    <div>
+                        <p className="font-inter text-white/60">Connect on</p>
+                        <p className="font-inter text-2xl font-medium text-white">LinkedIn</p>
+                    </div>
+                </motion.a>
 
-  return (
-    <section ref={ref} className="relative flex h-screen w-full items-center justify-center bg-[#e4e4dd]">
-      <motion.div
-        variants={sectionVariants}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ amount: 0.3 }}
-        className="w-[85vw] max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center"
-      >
-        <motion.div className="flex flex-col text-left" variants={leftColumnVariants}>
-          <motion.h2 className="font-editorial text-5xl md:text-6xl font-light text-black/90 mb-4" variants={textVariants}>
-            Engineer & Innovator.
-          </motion.h2>
-          <motion.div className="w-full h-px bg-black/20 origin-left mb-6" variants={dividerVariants} />
-          
-          <TextRevealByTime 
-            ref={paragraphRef}
-            text={paragraphText} 
-            className="font-ppneue font-medium text-lg md:text-xl text-black/70 leading-relaxed !justify-start text-left" 
-            trigger={isParagraphInView}
-            startDelay={0}
-            wordDelay={0.02} 
-          />
-        </motion.div>
-        {/* The parent of the Image wrapper is already relative, which is good. */}
-        <motion.div className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl" variants={rightColumnVariants}>
-          {/* PLAN EXECUTED: Added 'relative' to the direct parent of the Image component to fix the error. */}
-          <motion.div variants={imageVariants} className="relative w-full h-full">
-            <Image src="/assets/placeholder.png" alt="A portrait of Ankita Sahoo" fill className="object-cover" sizes="(max-width: 768px) 85vw, 40vw" />
-          </motion.div>
-        </motion.div>
-      </motion.div>
-    </section>
-  );
+                {/* Cell 4: Personal Bio */}
+                <motion.div
+                    variants={cellVariants}
+                    className="lg:col-span-2 rounded-3xl bg-white/50 p-8 backdrop-blur-lg border border-white"
+                >
+                    <h3 className="font-inter text-2xl font-medium text-black/90">Engineer & Innovator</h3>
+                    <p className="mt-4 font-inter text-lg text-black/70 leading-relaxed">
+                        My fascination isn't just with algorithms; it's with the stories hidden within data. I architect intelligent systems that translate raw information into realities that drive decisions and create value.
+                    </p>
+                </motion.div>
+
+                {/* Cell 5: Skills Toolkit */}
+                <motion.div
+                    variants={cellVariants}
+                    className="lg:col-span-2 rounded-3xl bg-white/50 p-8 backdrop-blur-lg border border-white"
+                >
+                    <h3 className="font-inter text-2xl font-medium text-black/90">My Toolkit</h3>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                        {SKILLS.map(skill => (
+                            <div key={skill} className="px-3 py-1 text-sm bg-black/5 text-black/70 rounded-full font-medium">
+                                {skill}
+                            </div>
+                        ))}
+                    </div>
+                </motion.div>
+            </motion.div>
+        </section>
+    );
 });
 
 About.displayName = 'About';
+
 export default About;

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 import Image from 'next/image';
 
 export type ProjectItem = {
@@ -19,7 +19,6 @@ type LatestProjectsProps = {
   className?: string;
 };
 
-// PLAN EXECUTED: Rewritten project descriptions to be narrative-driven case studies.
 const DEFAULT_PROJECTS: ProjectItem[] = [
     { title: 'Neural Architecture Search', description: 'Challenge: Move beyond human intuition in network design. This automated system uses evolutionary algorithms to discover novel, high-performance architectures.', imageSrc: '/assets/placeholder.png', tags: ['AutoML', 'PyTorch', 'Ray', 'Kubernetes'], year: '2024', category: 'Research' },
     { title: 'Real-time Anomaly Detection', description: 'Requirement: Sub-millisecond fraud detection. Engineered a high-throughput streaming ML pipeline to identify outliers in real-time transaction data.', imageSrc: '/assets/placeholder.png', tags: ['Apache Kafka', 'TensorFlow', 'Redis', 'gRPC'], year: '2024', category: 'Production' },
@@ -47,11 +46,11 @@ export default function LatestProjects({
     >
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center">
         <div className="mb-16 text-center pt-24">
-            {/* PLAN EXECUTED: New, more professional section title. */}
             <h2 className="font-editorial font-extralight text-[8rem] leading-none text-white tracking-tight">
                 Selected Works.
             </h2>
-            <p className="font-ppneue text-white/60 text-lg mt-2 max-w-xl">
+            {/* PLAN EXECUTED: Replaced 'font-ppneue' with 'font-inter' */}
+            <p className="font-inter text-white/60 text-lg mt-2 max-w-xl">
                 A curated selection of my recent work in machine learning and AI systems.
             </p>
         </div>
@@ -72,8 +71,7 @@ export default function LatestProjects({
   );
 }
 
-// ProjectCard component remains the same, only the data it receives has changed.
-function ProjectCard({ item, index, totalProjects, progress }: { item: ProjectItem; index: number; totalProjects: number; progress: any; }) {
+function ProjectCard({ item, index, totalProjects, progress }: { item: ProjectItem; index: number; totalProjects: number; progress: MotionValue<number>; }) {
   const start = index / totalProjects;
   const end = start + (1 / totalProjects);
   const opacity = useTransform(progress, [start, start + 0.1, end - 0.1, end], [0, 1, 1, 0]);
@@ -90,11 +88,13 @@ function ProjectCard({ item, index, totalProjects, progress }: { item: ProjectIt
           <span className="font-editorial text-5xl text-white/40">{String(index + 1).padStart(2, '0')}</span>
           <h3 className="font-editorial font-light text-[3rem] leading-tight tracking-tight text-white">{item.title}</h3>
         </div>
-        <p className="font-ppneue text-lg leading-relaxed text-white/75 max-w-lg">{item.description}</p>
+        {/* PLAN EXECUTED: Replaced 'font-ppneue' with 'font-inter' */}
+        <p className="font-inter text-lg leading-relaxed text-white/75 max-w-lg">{item.description}</p>
         {item.tags && (
           <div className="flex flex-wrap gap-3 pt-2">
             {item.tags.map((tag) => (
-              <motion.span key={tag} className="inline-flex items-center px-4 py-2 rounded-full border border-white/20 bg-white/[0.07] backdrop-blur-sm text-sm font-ppneue text-white/90 font-medium" whileHover={{ borderColor: "rgba(255, 255, 255, 0.4)", backgroundColor: "rgba(255, 255, 255, 0.1)" }}>{tag}</motion.span>
+              // PLAN EXECUTED: Replaced 'font-ppneue' with 'font-inter'
+              <motion.span key={tag} className="inline-flex items-center px-4 py-2 rounded-full border border-white/20 bg-white/[0.07] backdrop-blur-sm text-sm font-inter text-white/90 font-medium" whileHover={{ borderColor: "rgba(255, 255, 255, 0.4)", backgroundColor: "rgba(255, 255, 255, 0.1)" }}>{tag}</motion.span>
             ))}
           </div>
         )}

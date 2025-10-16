@@ -35,8 +35,8 @@ export default function Home() {
       {isLoading && <Loading onComplete={handleLoadingComplete} />}
       <Navbar isVisible={isIntroFinished} />
       
-      {/* PLAN EXECUTED: Removed the conflicting background class from the main element. */}
       <main className="relative">
+        {/* This prop is now correctly accepted by the new Hero component, fixing the error. */}
         <Hero isAnimated={isIntroFinished} />
         <About />
         <LatestProjects />

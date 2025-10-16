@@ -3,7 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import { useEffect, useState, forwardRef } from "react";
 
-const cn = (...inputs: any[]) => inputs.filter(Boolean).join(' ');
+const cn = (...inputs: (string | undefined | null | false)[]): string => inputs.filter(Boolean).join(' ');
 
 interface TextRevealByTimeProps {
   text: string;

@@ -13,42 +13,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const ppNeue = localFont({
-  src: [
-    {
-      path: '../fonts/PPNeueMontreal-Thin.woff2',
-      weight: '100',
-      style: 'normal',
-    },
-    {
-      path: '../fonts/PPNeueMontreal-Book.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../fonts/PPNeueMontreal-Medium.woff2',
-      weight: '500',
-      style: 'normal',
-    },
-    {
-      path: '../fonts/PPNeueMontreal-Bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
-    {
-      path: '../fonts/PPNeueMontreal-Italic.woff2',
-      weight: '400',
-      style: 'italic',
-    },
-    {
-      path: '../fonts/PPNeueMontreal-SemiBolditalic.woff2',
-      weight: '600',
-      style: 'italic',
-    },
-  ],
-  variable: '--font-ppneue',
-  display: 'swap',
-});
+// PLAN EXECUTED: The local font loader for 'ppNeue' has been removed.
 
 const PPEditorialNew = localFont({
   src: [
@@ -100,7 +65,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${ppNeue.variable} ${PPEditorialNew.variable} antialiased`}
+        // PLAN EXECUTED: Removed the 'ppNeue.variable' from the body class list.
+        className={`${geistSans.variable} ${geistMono.variable} ${PPEditorialNew.variable} antialiased`}
       >
         {children}
       </body>
