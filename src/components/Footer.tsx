@@ -5,6 +5,14 @@ import { useRef, FC, ReactNode, CSSProperties } from 'react';
 import { motion, useInView, Variants } from 'framer-motion';
 import Link from 'next/link';
 
+// PLAN EXECUTED: Replaced placeholder '#' links with illustrative, standard URLs.
+const SOCIAL_LINKS = {
+  linkedIn: "https://www.linkedin.com/in/your-profile-name",
+  github: "https://github.com/your-username",
+  twitter: "https://twitter.com/your-handle"
+};
+const EMAIL_ADDRESS = "mailto:ankitasahoo370@gmail.com";
+
 const MinimalLink: FC<{ href: string; children: ReactNode }> = ({ href, children }) => (
   <Link href={href} target="_blank" className="text-white/60 transition-colors duration-300 hover:text-white">
     {children}
@@ -39,7 +47,6 @@ const Footer = () => {
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      {/* PLAN EXECUTED: Increased max-width from 5xl to 7xl to achieve the size increase. */}
       <motion.div 
         className="relative w-full max-w-7xl rounded-3xl sm:rounded-[32px] bg-black shadow-2xl shadow-black/20 border border-white/10"
         variants={{
@@ -47,7 +54,6 @@ const Footer = () => {
           visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } }
         }}
       >
-        {/* PLAN EXECUTED: Increased padding for a more spacious and grand feel. */}
         <motion.div 
           className="flex flex-col gap-12 p-12 sm:p-20"
           variants={containerVariants}
@@ -60,7 +66,6 @@ const Footer = () => {
               Let&apos;s Build Together
             </motion.h2>
             
-            {/* PLAN EXECUTED: Added new, descriptive text to enrich the content. */}
             <motion.p 
               variants={itemVariants} 
               className="mx-auto mt-6 max-w-3xl text-lg text-white/70"
@@ -70,7 +75,7 @@ const Footer = () => {
 
             <motion.div variants={itemVariants} className="mt-10">
               <motion.a
-                href="mailto:ankitasahoo370@gmail.com"
+                href={EMAIL_ADDRESS}
                 className="group inline-flex items-center gap-4 rounded-full bg-white px-8 py-5 text-lg font-inter font-medium text-black"
                 whileHover="hover"
                 initial="rest"
@@ -96,9 +101,9 @@ const Footer = () => {
             <div className="flex flex-col items-center justify-between gap-6 font-inter text-sm md:flex-row">
               <p className="text-white/60">&copy; {new Date().getFullYear()} Ankita Sahoo</p>
               <div className="flex items-center gap-6">
-                <MinimalLink href="#">LinkedIn</MinimalLink>
-                <MinimalLink href="#">GitHub</MinimalLink>
-                <MinimalLink href="#">Twitter</MinimalLink>
+                <MinimalLink href={SOCIAL_LINKS.linkedIn}>LinkedIn</MinimalLink>
+                <MinimalLink href={SOCIAL_LINKS.github}>GitHub</MinimalLink>
+                <MinimalLink href={SOCIAL_LINKS.twitter}>Twitter</MinimalLink>
               </div>
             </div>
           </motion.div>

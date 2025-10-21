@@ -1,71 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
-/* Root variables for theme colors */
+/* Root variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
   scrollbar-width: none;
 }
 
-/* Ensure fonts are loaded and applied */
+/* Base Font Styles */
+body {
+  font-family: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  background-color: #e4e4dd;
+  color: #171717;
+}
+
 .font-editorial {
   font-family: var(--font-editorial), ui-serif, serif !important;
 }
 
-/* Specific font-weight classes for editorial font */
 .font-editorial.font-extralight {
   font-weight: 200 !important;
   font-family: var(--font-editorial), ui-serif, serif !important;
 }
 
-/* Base body font is now Inter Tight */
-body {
-  font-family: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
-}
-
-
-.text-stroke {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9);
-}
-
-
-/* Styles for the Connect Section / Background Marquee */
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee {
-  width: 200%; 
-  display: flex;
-  animation: marquee 80s linear infinite;
-}
-
-.marquee span {
-  width: 100%;
-  flex-shrink: 0;
-  font-family: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.25rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-  padding: 0 2rem;
-}
-
-/* PLAN EXECUTED: Added a subtle, custom text selection color for a more polished feel. */
 ::selection {
-  background-color: #A0A096; /* A soft, warm gray */
-  color: #FFFFFF; /* Crisp white text for contrast */
+  background-color: #A0A096;
+  color: #FFFFFF;
 }
 
-/* --- Styles for the GSAP Kinetic Skew Loader --- */
-
+/* --- Styles for The Celestial Orb Loader --- */
 .preloader {
   position: fixed;
   inset: 0;
@@ -75,7 +39,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Prevent glows from showing scrollbars */
+  overflow: hidden;
 }
 
 .orb-container {
@@ -85,42 +49,22 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* filter: blur(8px); */
 }
 
 .orb-main {
   width: 150px;
   height: 150px;
   position: absolute;
-  /* PLAN EXECUTED: Volumetric gradient for a celestial feel. */
-  background: radial-gradient(circle at 30% 30%, #4a4a5a, #171717 80%);
+  background: radial-gradient(circle at 30% 30%, #4a4a5a, #171717 80);
   border-radius: 50%;
-  box-shadow: 0 0 80px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
 .satellite {
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  /* These will be animated to orbit the center */
-}
-
-.satellite::before {
-  content: '';
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #5c5c6c, #2a2a3a);
-}
-
-/* Position and size the satellites differently for a more dynamic system */
-.satellite {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transform-origin: center center; 
+  transform-origin: center center;
 }
 
 .satellite-orb {
@@ -132,13 +76,91 @@ body {
   background: radial-gradient(circle, #5c5c6c, #2a2a3a);
 }
 
-
 .loader-text {
-  font-family:  "Inter Tight", serif, serif;
+  font-family: var(--font-editorial), ui-serif, serif;
   font-size: 2rem;
-  font-weight: 500;
+  font-weight: 300;
   color: #171717;
   margin-top: 4rem;
   opacity: 0;
   transform: translateY(20px);
+}
+
+/* --- Definitive Styles for The Magnetic Image Grid --- */
+
+.magnetic-grid-showcase {
+  position: relative;
+  width: 100%;
+  background-color: #000000;
+  color: white;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  overflow: hidden;
+  cursor: default; /* Remove the text selection cursor */
+}
+
+.project-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  transition: border-color 0.4s ease;
+}
+
+.project-row:hover {
+  border-top-color: rgba(255, 255, 255, 0.5);
+}
+
+.project-title {
+  font-family: var(--font-editorial), ui-serif, serif;
+  font-size: 5rem; /* 80px */
+  font-weight: 300;
+  line-height: 1;
+  color: white;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-row:hover .project-title {
+  transform: translateX(10px);
+}
+
+.project-category {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.floating-image-container {
+  position: fixed; /* Use fixed positioning for viewport-relative movement */
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 300px;
+  pointer-events: none; /* CRITICAL: Allows hovering on text underneath */
+  z-index: 50;
+  opacity: 0; /* Initially hidden */
+  scale: 0.8;
+  transform: translate(-50%, -50%); /* Center the container on the cursor */
+  will-change: transform;
+}
+
+.floating-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1.5rem; /* 24px */
+  overflow: hidden;
+  will-change: transform; /* Optimize for skew and scale animations */
+}
+
+/* --- Modern Projects Section Styles --- */
+.project-item {
+  cursor: pointer;
+}
+
+.project-item:hover {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.02) 50%, transparent 100%);
 }

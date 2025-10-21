@@ -1,22 +1,20 @@
 // src/app/page.tsx
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Loading from '@/components/Loading';
 import Navbar from '@/components/Navbar';
-import LatestProjects from '@/components/LatestProjects';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
+import Projects from '@/components/Projects';
 import Footer from '@/components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isIntroFinished, setIsIntroFinished] = useState(false);
+  const isIntroFinished = true; // Show content immediately
 
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.05, smoothWheel: true });
@@ -26,20 +24,14 @@ export default function Home() {
     return () => lenis.destroy();
   }, []);
 
-  const handleLoadingComplete = useCallback(() => {
-    setIsLoading(false);
-    setTimeout(() => setIsIntroFinished(true), 100);
-  }, []);
-
   return (
     <>
-      {isLoading && <Loading onComplete={handleLoadingComplete} />}
       <Navbar isVisible={isIntroFinished} />
       
       <main className="relative">
         <Hero isAnimated={isIntroFinished} />
         <About />
-        <LatestProjects />
+        <Projects />
         <Footer />
       </main>
     </>

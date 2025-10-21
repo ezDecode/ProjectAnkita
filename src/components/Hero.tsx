@@ -73,7 +73,8 @@ const Hero = ({ isAnimated }: { isAnimated: boolean }) => {
                     variants={fadeUpVariants}
                     className="max-w-4xl mx-auto mt-12 font-inter text-xl text-black/80 leading-relaxed"
                 >
-                    <strong className="font-medium text-black">5 years</strong> delivering solutions across various industries. I pair strong <strong className="font-medium text-black">machine learning</strong> skills with expertise in <strong className="font-medium text-black">strategy and architecture</strong> aligned with <strong className="font-medium text-black">business</strong> objectives. My experience spans diverse sectors: retail, tech startups, healthcare, sports, B2B companies, institutions...
+                    {/* PLAN EXECUTED: Refined the copy for a more polished and impactful narrative. */}
+                    With <strong className="font-medium text-black">5 years</strong> of experience, I deliver robust solutions across diverse sectors—from retail and tech startups to healthcare and B2B enterprises. I pair strong <strong className="font-medium text-black">machine learning</strong> skills with expertise in <strong className="font-medium text-black">strategy and architecture</strong> to build systems aligned with key <strong className="font-medium text-black">business</strong> objectives.
                 </motion.p>
             </motion.div>
         </section>
